@@ -1,10 +1,9 @@
 package com.vendor.vendorservice.service.impl;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vendor.vendorservice.exception.VendorNotFoundException;
 import com.vendor.vendorservice.model.CloudVendor;
 import com.vendor.vendorservice.repository.VendorRepository;
 import com.vendor.vendorservice.service.CloudVendorService;
@@ -38,6 +37,9 @@ public class CloudVendorServiceImplementation implements CloudVendorService {
 
     @Override
     public CloudVendor getCloudVendor(String vendorId) {
+        if(!vendorRepository.existsById(vendorId)) {
+            throw new VendorNotFoundException("Cloud Vendor with id " + vendorId + " not found!");
+        }
         return vendorRepository.findById(vendorId).get();
     }
 
